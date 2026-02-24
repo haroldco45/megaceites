@@ -26,94 +26,152 @@
             70% { transform: scale(1.03); box-shadow: 0 0 0 8px rgba(0, 71, 171, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 71, 171, 0); }
         }
-        .btn-catalogo {
-            background: linear-gradient(45deg, #0047AB, #002e6e);
-            box-shadow: 0 4px 15px rgba(0, 71, 171, 0.3);
+        #bloqueo-sub {
+            display: none; position: fixed; inset: 0; background: white; 
+            z-index: 9999; justify-content: center; align-items: center; 
+            text-align: center; padding: 20px;
         }
-        .btn-whatsapp { background-color: #25D366; }
     </style>
 </head>
 <body class="p-4 pb-10 max-w-2xl mx-auto font-sans">
 
+    <div id="bloqueo-sub">
+        <div>
+            <h1 class="text-2xl font-black text-gray-800">Suscripción Vencida</h1>
+            <p class="text-gray-500 text-sm mt-2">Contacte al desarrollador para reactivar el servicio.</p>
+            <a href="https://wa.me/573007293667" class="mt-6 inline-block bg-black text-white px-6 py-2 rounded-full font-bold">SOPORTE TÉCNICO</a>
+        </div>
+    </div>
+
     <header class="text-center mb-6">
         <h1 class="text-4xl font-black text-blue-900 italic uppercase tracking-tighter">MEGACEITES</h1>
-        <p class="text-gray-600 font-bold text-xs uppercase tracking-widest mt-1">Lubricantes y Soluciones Industriales</p>
+        <p class="text-gray-600 font-bold text-[10px] uppercase tracking-widest mt-1">Lubricantes y Alimentos Industriales</p>
         
-        <div class="mt-6 flex flex-col gap-3 items-center">
-            <a href="catalogo.pdf" target="_blank" class="btn-catalogo w-full max-w-xs flex items-center justify-center gap-3 text-white py-4 rounded-2xl font-black text-sm uppercase shadow-lg hover:scale-105 transition-all">
-                <i class="fas fa-file-pdf text-xl"></i> VER CATÁLOGO DE PRODUCTOS
+        <div class="mt-6">
+            <a href="catalogo.pdf" target="_blank" class="inline-flex items-center gap-3 bg-blue-900 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase shadow-lg hover:scale-105 transition-all">
+                <i class="fas fa-file-pdf text-xl text-yellow-400"></i> Ver Catálogo PDF
             </a>
         </div>
     </header>
 
-    <section class="bg-white p-6 rounded-3xl shadow-2xl border-t-4 border-blue-700 mb-6">
-        <h2 class="font-black text-blue-900 flex items-center gap-2 text-sm uppercase mb-4">
-            <i class="fas fa-id-card text-blue-600"></i> Información de Contacto
-        </h2>
-        
-        <div class="space-y-4">
-            <div class="flex items-start gap-3 border-b pb-3">
-                <i class="fas fa-map-marker-alt text-blue-600 mt-1"></i>
-                <p class="text-sm font-semibold text-gray-700">
-                    Parque Industrial del Caribe Cl. 110 N. 6-363 Bodega 5<br>
-                    <span class="text-blue-800 font-bold">Barranquilla, Atlántico</span>
-                </p>
+    <section class="bg-white p-5 rounded-3xl shadow-xl border-t-4 border-blue-700 mb-6">
+        <div id="vista-resumida" class="hidden mb-4">
+            <div class="flex justify-between items-center bg-blue-50 p-3 rounded-xl border border-blue-100">
+                <div class="text-[11px]">
+                    <p class="font-black text-blue-900 uppercase" id="resumen-nombre"></p>
+                    <p class="text-gray-500 italic" id="resumen-dir"></p>
+                </div>
+                <button onclick="toggleEditor()" class="text-blue-700 font-bold text-[10px] border-b border-blue-700 uppercase">Editar Datos</button>
             </div>
-
-            <div class="flex items-center gap-3">
-                <i class="fab fa-whatsapp text-green-500 text-xl"></i>
-                <a href="https://wa.me/573205953994" class="text-lg font-black text-gray-800 tracking-tighter">
-                    320 595 3994
-                </a>
-            </div>
-
-            <button onclick="obtenerUbicacionReal()" class="w-full btn-gps-blink text-white font-black py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg text-xs uppercase mt-2">
-                <i class="fas fa-location-arrow text-lg"></i> Vincular mi Ubicación GPS
-            </button>
-            <div id="status_gps" class="hidden text-center text-green-600 font-bold text-[10px] uppercase italic mt-2">
-                <i class="fas fa-check-circle"></i> Ubicación vinculada correctamente
-            </div>
-            <input type="hidden" id="gps_url">
         </div>
+
+        <div id="editor-datos" class="space-y-3">
+            <h2 class="font-black text-blue-900 text-[10px] uppercase mb-2 italic">Registro de Entrega</h2>
+            <input type="text" id="nombre" placeholder="Nombre o Razón Social" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
+            <input type="text" id="direccion" placeholder="Dirección de entrega" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
+            <input type="tel" id="celular" placeholder="Celular de contacto" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
+            <button onclick="guardarDatos()" class="w-full bg-blue-900 text-white font-black py-3 rounded-xl text-xs uppercase shadow-md">Confirmar Datos</button>
+        </div>
+
+        <button onclick="obtenerUbicacionReal()" class="w-full btn-gps-blink text-white font-black py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg text-xs uppercase mt-4">
+            <i class="fas fa-location-dot text-lg"></i> Vincular Ubicación GPS
+        </button>
+        <div id="status_gps" class="hidden text-center text-green-600 font-bold text-[9px] uppercase italic mt-2">
+            <i class="fas fa-check-double"></i> GPS Listo
+        </div>
+        <input type="hidden" id="gps_url">
     </section>
 
-    <section class="bg-white p-6 rounded-3xl shadow-md border-l-4 border-yellow-500 mb-6">
-        <h2 class="font-black text-gray-800 text-sm uppercase mb-3">Solicitar Cotización / Pedido</h2>
-        <textarea id="pedido" placeholder="Ej: Necesito 5 cajas de Ricaceite x 900cm3 y ajo malla..." class="w-full p-4 border-2 border-gray-100 rounded-2xl h-32 focus:border-blue-500 outline-none text-sm font-medium bg-gray-50 mb-4"></textarea>
+    <section class="bg-white p-5 rounded-3xl shadow-md border-l-4 border-yellow-500 mb-6">
+        <textarea id="pedido" placeholder="Escriba su pedido aquí..." class="w-full p-4 border rounded-2xl h-32 focus:border-blue-500 outline-none text-sm bg-gray-50 mb-4 font-medium"></textarea>
+
+        <div class="space-y-4">
+            <div>
+                <label class="text-[10px] font-black text-gray-400 uppercase">Forma de Pago</label>
+                <select id="pago" class="w-full p-3 border rounded-xl font-bold bg-gray-50 text-sm outline-none">
+                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                    <option value="Efectivo Contraentrega">Efectivo Contraentrega</option>
+                    <option value="Credito Autorizado">Crédito Autorizado</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-[10px] font-black text-gray-400 uppercase">Observaciones</label>
+                <input type="text" id="obs" placeholder="Instrucciones adicionales" class="w-full p-3 border rounded-xl bg-gray-50 text-sm outline-none">
+            </div>
+        </div>
         
-        <button onclick="enviarPedido()" class="btn-whatsapp w-full text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl">
-            <i class="fab fa-whatsapp text-2xl"></i> ENVIAR A WHATSAPP
+        <button onclick="enviarPedido()" class="w-full bg-green-500 text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl mt-6">
+            <i class="fab fa-whatsapp text-2xl"></i> ENVIAR PEDIDO
         </button>
     </section>
 
-    <footer class="text-center mt-10 opacity-60">
-        <img src="https://i.ibb.co/3ykX8kz/logo-vibras-positivas.png" alt="Logo Vibras Positivas" class="h-12 mx-auto mb-2">
-        <p class="text-[10px] font-black uppercase text-gray-500">Desarrollado por Vibras Positivas</p>
+    <footer class="text-center mt-6">
+        <p class="text-[9px] font-bold text-gray-400 uppercase">Sede Barranquilla: Parque Industrial del Caribe Cl. 110 N. 6-363 Bodega 5</p>
+        <p class="text-[10px] font-black uppercase text-gray-500 tracking-widest mt-10">app desarrollada por vibras positvas derechos de autor</p>
     </footer>
 
     <script>
+        const fechaCorte = new Date('2026-12-31');
+        if (new Date() > fechaCorte) {
+            document.getElementById('bloqueo-sub').style.display = 'flex';
+        }
+
+        window.onload = function() {
+            if(localStorage.getItem('mega_nombre')) {
+                document.getElementById('nombre').value = localStorage.getItem('mega_nombre');
+                document.getElementById('direccion').value = localStorage.getItem('mega_dir');
+                document.getElementById('celular').value = localStorage.getItem('mega_tel');
+                mostrarResumen();
+            }
+        };
+
+        function guardarDatos() {
+            const nom = document.getElementById('nombre').value;
+            const dir = document.getElementById('direccion').value;
+            if(!nom || !dir) return alert("Nombre y Dirección son obligatorios.");
+            localStorage.setItem('mega_nombre', nom);
+            localStorage.setItem('mega_dir', dir);
+            localStorage.setItem('mega_tel', document.getElementById('celular').value);
+            mostrarResumen();
+        }
+
+        function mostrarResumen() {
+            document.getElementById('resumen-nombre').innerText = document.getElementById('nombre').value;
+            document.getElementById('resumen-dir').innerText = document.getElementById('direccion').value;
+            document.getElementById('editor-datos').classList.add('hidden');
+            document.getElementById('vista-resumida').classList.remove('hidden');
+        }
+
+        function toggleEditor() {
+            document.getElementById('editor-datos').classList.toggle('hidden');
+            document.getElementById('vista-resumida').classList.toggle('hidden');
+        }
+
         function obtenerUbicacionReal() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(pos) {
                     const url = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
                     document.getElementById('gps_url').value = url;
                     document.getElementById('status_gps').classList.remove('hidden');
-                    alert("📍 Ubicación vinculada.");
-                }, function() { alert("Por favor activa el GPS."); });
+                });
             }
         }
 
         function enviarPedido() {
+            const nom = document.getElementById('nombre').value;
             const pedido = document.getElementById('pedido').value;
-            const gps = document.getElementById('gps_url').value;
-            
-            if(!pedido) return alert("Por favor escribe tu pedido.");
+            if(!nom || !pedido) return alert("Faltan datos obligatorios.");
 
-            let msg = `*🛢️ NUEVA SOLICITUD - MEGACEITES*\n`;
-            msg += `----------------------------------\n`;
-            msg += `📝 *Pedido:* ${pedido}\n`;
-            if(gps) msg += `📍 *Ubicación:* ${gps}\n`;
-            msg += `----------------------------------\n`;
+            let msg = `*🛢️ PEDIDO - MEGACEITES*\n`;
+            msg += `--------------------------\n`;
+            msg += `👤 *Cliente:* ${nom}\n`;
+            msg += `📍 *Dirección:* ${document.getElementById('direccion').value}\n`;
+            if(document.getElementById('gps_url').value) msg += `🗺️ *GPS:* ${document.getElementById('gps_url').value}\n`;
+            msg += `💳 *Pago:* ${document.getElementById('pago').value}\n`;
+            msg += `--------------------------\n`;
+            msg += `📦 *PRODUCTOS:*\n${pedido}\n`;
+            if(document.getElementById('obs').value) msg += `📝 *Obs:* ${document.getElementById('obs').value}\n`;
+            msg += `--------------------------\n`;
             msg += `🚀 _App por Vibras Positivas_`;
 
             window.open(`https://wa.me/573205953994?text=${encodeURIComponent(msg)}`);
