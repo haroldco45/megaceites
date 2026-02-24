@@ -45,11 +45,11 @@
 
     <header class="text-center mb-6">
         <h1 class="text-4xl font-black text-blue-900 italic uppercase tracking-tighter">MEGACEITES</h1>
-        <p class="text-gray-600 font-bold text-[10px] uppercase tracking-widest mt-1">Lubricantes y Alimentos Industriales</p>
+        <p class="text-gray-600 font-bold text-[10px] uppercase tracking-widest mt-1">Distribución de Alimentos y Consumo Masivo</p>
         
         <div class="mt-6">
             <a href="catalogo.pdf" target="_blank" class="inline-flex items-center gap-3 bg-blue-900 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase shadow-lg hover:scale-105 transition-all">
-                <i class="fas fa-file-pdf text-xl text-yellow-400"></i> Ver Catálogo PDF
+                <i class="fas fa-file-pdf text-xl text-yellow-400"></i> Ver Catálogo de Alimentos
             </a>
         </div>
     </header>
@@ -67,7 +67,7 @@
 
         <div id="editor-datos" class="space-y-3">
             <h2 class="font-black text-blue-900 text-[10px] uppercase mb-2 italic">Registro de Entrega</h2>
-            <input type="text" id="nombre" placeholder="Nombre o Razón Social" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
+            <input type="text" id="nombre" placeholder="Nombre del Negocio o Cliente" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
             <input type="text" id="direccion" placeholder="Dirección de entrega" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
             <input type="tel" id="celular" placeholder="Celular de contacto" class="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50 text-sm font-semibold">
             <button onclick="guardarDatos()" class="w-full bg-blue-900 text-white font-black py-3 rounded-xl text-xs uppercase shadow-md">Confirmar Datos</button>
@@ -83,7 +83,7 @@
     </section>
 
     <section class="bg-white p-5 rounded-3xl shadow-md border-l-4 border-yellow-500 mb-6">
-        <textarea id="pedido" placeholder="Escriba su pedido aquí..." class="w-full p-4 border rounded-2xl h-32 focus:border-blue-500 outline-none text-sm bg-gray-50 mb-4 font-medium"></textarea>
+        <textarea id="pedido" placeholder="Ej: 5 cajas de Aceite Ricaceite x 1000cm3, 2 bultos de ajo..." class="w-full p-4 border rounded-2xl h-32 focus:border-blue-500 outline-none text-sm bg-gray-50 mb-4 font-medium"></textarea>
 
         <div class="space-y-4">
             <div>
@@ -169,7 +169,7 @@
             if(document.getElementById('gps_url').value) msg += `🗺️ *GPS:* ${document.getElementById('gps_url').value}\n`;
             msg += `💳 *Pago:* ${document.getElementById('pago').value}\n`;
             msg += `--------------------------\n`;
-            msg += `📦 *PRODUCTOS:*\n${pedido}\n`;
+            msg += `📦 *PEDIDO:*\n${pedido}\n`;
             if(document.getElementById('obs').value) msg += `📝 *Obs:* ${document.getElementById('obs').value}\n`;
             msg += `--------------------------\n`;
             msg += `🚀 _App por Vibras Positivas_`;
